@@ -47,7 +47,7 @@ if (app.Environment.IsDevelopment())
 // Pay attention to the order of the middleware: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#middleware-order
 app.UseHttpsRedirection();
 
-app.UseCors(policy => policy.WithOrigins("http://localhost:7010")
+app.UseCors(policy => policy.WithOrigins("https://localhost:7010")
                             .AllowAnyMethod()
                             .AllowAnyHeader()
                             .AllowCredentials()
