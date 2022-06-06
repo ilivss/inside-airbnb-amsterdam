@@ -1,0 +1,15 @@
+services:
+  database:
+    container_name: iaba-mssql
+    hostname: iaba-mssql
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    restart: always
+    ports:
+      - 1433:1433
+    volumes:
+      - ./:/db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=8@D2zX3Ex4He!D
+      - MSSQL_PID=Developer
+      - MSSQL_PACKAGE=/db/AirBNB.bacpac
