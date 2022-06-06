@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 
 // Services
 builder.Services.AddScoped<IListingService, ListingService>();
+builder.Services.AddScoped<INeighbourhoodService, NeighbourhoodService>();
 
 // Database connection
 builder.Services.AddDbContext<ApplicationContext>(options =>
