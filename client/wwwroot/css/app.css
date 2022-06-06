@@ -1,5 +1,10 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+:root {
+    --header-height: 75px;
+    --footer-height: 100px;
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
