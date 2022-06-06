@@ -13,72 +13,28 @@
 }
 else
 {
-    <div>
-        @if (_listingFilters.MinPrice != null || _listingFilters.MaxPrice != null || _listingFilters.Neighbourhood != null || _listingFilters.MinNrOfReviews != null ||  _listingFilters.MaxNrOfReviews != null)
-        {
-            <div class="mb-3">
-                <label>Active filters</label>
-                <div>
-                    @if (_listingFilters.Neighbourhood != null)
-                    {
-                        <button @onclick="@(e => _listingFilters.Neighbourhood = null)" type="button" class="btn btn-sm btn-primary rounded-pill me-1">
-                            @_listingFilters.Neighbourhood
-                            <span class="oi oi-x"></span>
-                        </button>
-                    }
+    <h2>Filters</h2>
 
-                    @if (_listingFilters.MinPrice != null)
-                    {
-                        <button @onclick="@(e => _listingFilters.MinPrice = null)" type="button" class="btn btn-sm btn-warning rounded-pill me-1">
-                            &gt; €@_listingFilters.MinPrice
-                            <span class="oi oi-x"></span>
-                        </button>
-                    }
-                    @if (_listingFilters.MaxPrice != null)
-                    {
-                        <button @onclick="@(e => _listingFilters.MaxPrice = null)" type="button" class="btn btn-sm btn-warning rounded-pill me-1">
-                            &lt; €@_listingFilters.MaxPrice
-                            <span class="oi oi-x"></span>
-                        </button>
-                    }
-                    @if (_listingFilters.MinNrOfReviews != null)
-                    {
-                        <button @onclick="@(e => _listingFilters.MinNrOfReviews = null)" type="button" class="btn btn-sm btn-success rounded-pill me-1">
-                            &gt; @_listingFilters.MinNrOfReviews reviews
-                            <span class="oi oi-x"></span>
-                        </button>
-                    }
-                    @if (_listingFilters.MaxNrOfReviews != null)
-                    {
-                        <button @onclick="@(e => _listingFilters.MaxNrOfReviews = null)" type="button" class="btn btn-sm btn-success rounded-pill me-1">
-                            &lt; @_listingFilters.MaxNrOfReviews reviews
-                            <span class="oi oi-x"></span>
-                        </button>
-                    }
-                </div>
+    <EditForm Model="@_listingFilters" OnValidSubmit="() => FilterListings.InvokeAsync(_listingFilters)">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row g-3 mb-3">
+            <div class="col-6">
+                <label for="minPrice">minimum price</label>
+                <InputNumber id="minPrice" class="form-control" @bind-Value="_listingFilters.MinPrice" />
             </div>
-        }
-
-        <EditForm Model="@_listingFilters" OnValidSubmit="() => FilterListings.InvokeAsync(_listingFilters)">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-
-            <div class="row g-3 mb-3">
-                <div class="col-6">
-                    <label for="minPrice">minimum price</label>
-                    <InputNumber id="minPrice" class="form-control" @bind-Value="_listingFilters.MinPrice" />
-                </div>
-                <div class="col-6">
-                    <label for="maxPrice">maximum price</label>
-                    <InputNumber id="maxPrice" class="form-control" @bind-Value="_listingFilters.MaxPrice" />
-                </div>
+            <div class="col-6">
+                <label for="maxPrice">maximum price</label>
+                <InputNumber id="maxPrice" class="form-control" @bind-Value="_listingFilters.MaxPrice" />
             </div>
+        </div>
 
-            <div class="mb-3">
-                <label for="neighbourhood">neighbourhood</label>
-                <InputSelect id="neighbourhood" class="form-select" @bind-Value="_listingFilters.Neighbourhood">
+        <div class="mb-3">
+            <label for="neighbourhood">neighbourhood</label>
+            <InputSelect id="neighbourhood" class="form-select" @bind-Value="_listingFilters.Neighbourhood">
 
-                    @if (Neighbourhoods == null)
+                @if (Neighbourhoods == null)
                     {
                     <option value="" selected disabled>loading...</option>
                     }
@@ -94,23 +50,44 @@ else
                         }
                     }
 
-                </InputSelect>
-            </div>
+            </InputSelect>
+        </div>
 
-            <div class="row g-3 mb-3">
-                <div class="col-6">
-                    <label for="minNrOfReviews">minimum # reviews</label>
-                    <InputNumber id="minNrOfReviews" class="form-control" @bind-Value="_listingFilters.MinNrOfReviews" />
-                </div>
-                <div class="col-6">
-                    <label for="maxNrOfReviews">maximum # reviews</label>
-                    <InputNumber id="maxNrOfReviews" class="form-control" @bind-Value="_listingFilters.MaxNrOfReviews" />
-                </div>
+        <div class="row g-3 mb-3">
+            <div class="col-6">
+                <label for="minNrOfReviews">minimum # reviews</label>
+                <InputNumber id="minNrOfReviews" class="form-control" @bind-Value="_listingFilters.MinNrOfReviews" />
             </div>
+            <div class="col-6">
+                <label for="maxNrOfReviews">maximum # reviews</label>
+                <InputNumber id="maxNrOfReviews" class="form-control" @bind-Value="_listingFilters.MaxNrOfReviews" />
+            </div>
+        </div>
 
+        <div class="d-flex justify-content-between align-items-between">
             <button type="submit" class="btn btn-primary">Submit</button>
-        </EditForm>
-    </div>
+
+            @if (_listingFilters.MinPrice != null ||
+               _listingFilters.MaxPrice != null ||
+               _listingFilters.Neighbourhood != null ||
+               _listingFilters.MinNrOfReviews != null ||
+               _listingFilters.MaxNrOfReviews != null
+               )
+                {
+                    <button type="button" class="btn btn-link" style="text-decoration: none;"
+                            @onclick="@(e => {
+                                _listingFilters.MinPrice = null;
+                                _listingFilters.MaxPrice = null;
+                                _listingFilters.Neighbourhood = null;
+                                _listingFilters.MinNrOfReviews = null;
+                                _listingFilters.MaxNrOfReviews = null;
+                                FilterListings.InvokeAsync(_listingFilters);
+                            })">
+                        <span class="oi oi-x"></span> Clear
+                    </button>
+                }
+            </div>
+    </EditForm>
 }
 
 @code {
