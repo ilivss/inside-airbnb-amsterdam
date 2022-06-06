@@ -17,8 +17,6 @@ public class ListingController : ControllerBase, IListingController
     }
 
     [HttpGet]
-    // TODO: uncomment next line!
-    // [Authorize]
     public IActionResult Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
         var listings = _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);

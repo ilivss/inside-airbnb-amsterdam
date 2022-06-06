@@ -6,8 +6,7 @@ namespace api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-// TODO: uncomment next line!
-// [Authorize]
+[Authorize]
 public class StatisticsController : ControllerBase, IStatisticsController
 {
     private readonly IStatisticsService _statisticsService;
