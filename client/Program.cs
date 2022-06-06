@@ -13,5 +13,6 @@ builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(build
 builder.Services.AddSingleton<IListingService, ListingService>();
 builder.Services.AddSingleton<INeighbourhoodService, NeighbourhoodService>();
 builder.Services.AddSingleton<IStatisticsService, StatisticsService>();
+builder.Services.AddSingleton<IMapboxService, MapboxService>();
 
 await builder.Build().RunAsync();

@@ -1,0 +1,45 @@
+@using client.Models;
+@using client.Services;
+@using client.Components;
+
+@inject IMapboxService MapboxService;
+@inject IJSRuntime JS;
+
+@if (Listings == null)
+{
+    <Error Message="Listings are required to render the map!" />
+}
+else
+{
+    <div id='map' class="w-100 h-100"></div>
+}
+
+@code {
+    [Parameter]
+    public List<Listing>? Listings { get; set; }
+    [Parameter]
+    public EventCallback<string> SetListing { get; set; }
+
+    private DotNetObjectReference<Mapbox>? _dotNetHelper;
+
+    protected override void OnInitialized()
+    {
+        _dotNetHelper = DotNetObjectReference.Create(this);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initMapbox", MapboxService.GetToken());
+            await Task.Delay(500); // Mapbox Bug!
+            await JS.InvokeVoidAsync("addListings", Listings, _dotNetHelper);
+        }
+    }
+
+    [JSInvokable]
+    public void handleListingClick(string listingId)
+    {
+        SetListing.InvokeAsync(listingId);
+    }
+}

@@ -1,0 +1,57 @@
+@using client.Models
+@using client.Components
+
+@if (Listing == null)
+{
+    <Error Message="Listing is required to render this component!" />
+}
+else
+{
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">Listing Details</h2>
+        <button type="button" class="btn btn-sm btn-link" @onclick="() => SetListing.InvokeAsync(null)">close</button>
+    </div>
+   
+    <img src="@Listing.PictureUrl" class="img-fluid img-thumbnail mb-3" alt="...">
+  
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th scope="row">Id</th>
+                <td>@Listing.Id</td>
+            </tr>
+            <tr>
+                <th scope="row">Name</th>
+                <td>@Listing.Name</td>
+            </tr>
+            <tr>
+                <th scope="row">Description</th>
+                <td>@Listing.Description</td>
+            </tr>
+            <tr>
+                <th scope="row">Bedrooms</th>
+                <td>@Listing.Bedrooms</td>
+            </tr>
+            <tr>
+                <th scope="row">Price</th>
+                <td>€ @Listing.Price,00</td>
+            </tr>
+            <tr>
+                <th scope="row">Neighbourhood</th>
+                <td>@Listing.Neighbourhood</td>
+            </tr>
+            <tr>
+                <th scope="row">Number of Reviews</th>
+                <td>@Listing.NumberOfReviews</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@code
+{
+    [Parameter]
+    public Listing? Listing { get; set; }
+    [Parameter]
+    public EventCallback<string> SetListing { get; set; }
+}
