@@ -1,17 +1,51 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<header class="p-3 border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none me-3">
+                Inside AirBNB Amsterdam
+            </a>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="/" class="nav-link px-2 link-secondary">Listings</a></li>
+                <li><a href="/statistics" class="nav-link px-2 link-secondary">Statistics</a></li>
+            </ul>
+
+            <div class="dropdown-center text-end">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="data:image/png;base64,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"
+                        alt="anonymous user" class="rounded-circle" width="32" height="32">
+                </a>
+
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
+                    <li><span class="dropdown-item disabled"> name</span></li>
+                    <li>
+                        <span class="dropdown-item disabled">
+                            Role: ...
+                        </span>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Log out</a></li>
+                    <li><a class="dropdown-item" href="authentication/login">Log in</a></li>
+                </ul>
+            </div>
         </div>
+    </div>
+</header>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<main>
+    @Body
+</main>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">© 2022 iek</p>
+    <ul class="list-inline">
+        <li class="list-inline-item"><a href="#">Privacy</a></li>
+        <li class="list-inline-item"><a href="#">Terms</a></li>
+        <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+</footer>
