@@ -1,0 +1,53 @@
+@page "/statistics"
+
+@using client.Models;
+@using client.Services;
+
+@inject IStatisticsService statisticsService;
+
+<PageTitle>Statistics</PageTitle>
+
+<h1>Statistics</h1>
+
+<div class="row border border-primary">
+    <div class="col border border-danger">
+        <h2>
+            Average Availability
+        </h2>
+    </div>
+
+    <div class="col border border-success">
+        <h2>Average Beds</h2>
+    </div>
+</div>
+
+<hr> 
+
+<div class="row border border-primary">
+    <div class="col border border-danger">
+        <h2>Average Price</h2>
+    </div>
+
+    <div class="col border border-success">
+        <h2>Listing count</h2>
+    </div>
+</div>
+
+
+@code
+{
+    private List<NeighbourhoodAverageAvailability>? _averageAvailabilityPerNeighbourhood { get; set; }
+    private List<NeighbourhoodAverageBeds>? _averageBedsPerNeighbourhood { get; set; }
+    private List<NeighbourhoodAveragePrice>? _averagePricePerNeighbourhood { get; set; }
+    private List<NeighbourhoodListingCount>? _listingCountsPerNeighbourhood { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _averageAvailabilityPerNeighbourhood = await statisticsService.GetAverageAvailabilityPerNeighbourhood();
+        _averageBedsPerNeighbourhood = await statisticsService.GetAverageBedsPerNeighbourhood();
+        _averagePricePerNeighbourhood = await statisticsService.GetAveragePricePerNeighbourhood();
+        _listingCountsPerNeighbourhood = await statisticsService.GetListingCountPerNeighbourhood();
+
+        await base.OnInitializedAsync();
+    }
+}
