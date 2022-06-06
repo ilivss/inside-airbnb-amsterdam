@@ -5,7 +5,7 @@
 @inject IMapboxService MapboxService;
 @inject IJSRuntime JS;
 
-@if (Listings == null)
+@if (_listings == null)
 {
     <Error Message="Listings are required to render the map!" />
 }
@@ -15,8 +15,19 @@ else
 }
 
 @code {
+    private List<Listing>? _listings;
     [Parameter]
-    public List<Listing>? Listings { get; set; }
+    public List<Listing>? Listings
+    {
+        get { return _listings; }
+        set
+        {
+            _listings = value;
+            JS.InvokeVoidAsync("addListings", Listings, _dotNetHelper);
+        }
+    }
+
+
     [Parameter]
     public EventCallback<string> SetListing { get; set; }
 

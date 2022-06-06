@@ -30,9 +30,9 @@
             <div class="col-8">
                 <Mapbox listings="@_listings" SetListing="SetListing" />
             </div>
+
             <div class="col-4 h-100">
-                <div class="row" style="height: 330px;">
-                    <h2 class="mt-3">Filters</h2>
+                <div class="row py-3" style="height: 330px;">
                     <ListingFilterForm neighbourhoods="@_neighbourhoods" FilterListings="FilterListings" />
                 </div>
 
@@ -78,6 +78,7 @@
             listingFilters.Neighbourhood,
             listingFilters.MinNrOfReviews,
             listingFilters.MaxNrOfReviews);
+            StateHasChanged();
         }
         catch (Exception ex)
         {
