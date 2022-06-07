@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
+@using client.Components;
+
 <header class="border-bottom">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
@@ -12,6 +14,7 @@
                 <li><a href="/" class="nav-link px-2 link-secondary">Listings</a></li>
                 <li><a href="/statistics" class="nav-link px-2 link-secondary">Statistics</a></li>
             </ul>
+                    <AccessControl />
 
             <div class="dropdown-center text-end">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
@@ -33,6 +36,7 @@
                     <li><a class="dropdown-item" href="#">Log out</a></li>
                     <li><a class="dropdown-item" href="authentication/login">Log in</a></li>
                 </ul>
+
             </div>
         </div>
     </div>

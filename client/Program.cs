@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using client;
 using client.Services;
 
@@ -8,6 +9,13 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("APIBaseAddress")) });
+
+// Auth0
+builder.Services.AddOidcAuthentication(options =>
+{
+  builder.Configuration.Bind("Auth0", options.ProviderOptions);
+  options.ProviderOptions.ResponseType = "code";
+});
 
 // Services
 builder.Services.AddSingleton<IListingService, ListingService>();
