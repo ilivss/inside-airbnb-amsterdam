@@ -42,9 +42,9 @@ else
     {
         if (firstRender)
         {
-            await JS.InvokeVoidAsync("initMapbox", MapboxService.GetToken());
+            await JS.InvokeVoidAsync("initMapbox", MapboxService.GetToken(), _dotNetHelper);
             await Task.Delay(500); // Mapbox Bug!
-            await JS.InvokeVoidAsync("addListings", Listings, _dotNetHelper);
+            await JS.InvokeVoidAsync("addListings", Listings);
         }
     }
 

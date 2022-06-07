@@ -1,5 +1,6 @@
-window.initMapbox = (token) => {
+window.initMapbox = (token, _dotNetHelper) => {
   mapboxgl.accessToken = token;
+  window.dotNetHelper = _dotNetHelper;
 
   window.map = new mapboxgl.Map({
     container: "map", // container ID
@@ -9,7 +10,7 @@ window.initMapbox = (token) => {
   });
 };
 
-window.addListings = (listings, dotNetHelper) => {
+window.addListings = (listings) => {
   // Remove old layer and source
   if (window.map.getLayer("listings")) {
     window.map.removeLayer("listings");
@@ -63,7 +64,7 @@ window.addListings = (listings, dotNetHelper) => {
   // location of the feature, with name HTML from its properties.
   // https://docs.mapbox.com/mapbox-gl-js/example/popup-on-click/
   window.map.on("click", "listings", (e) => {
-    dotNetHelper.invokeMethodAsync(
+    window.dotNetHelper.invokeMethodAsync(
       "handleListingClick",
       e.features[0].properties.id.toString()
     );
