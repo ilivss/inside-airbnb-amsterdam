@@ -1,5 +1,6 @@
 @page "/statistics"
-@attribute [Authorize]
+@attribute [Authorize(Roles = "[\"admin\"]")]
+
 
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using client.Models;
@@ -16,8 +17,8 @@
 _averagePricePerNeighbourhood == null || _listingCountsPerNeighbourhood == null))
 {
     <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-    <span class="visually-hidden">Loading...</span>
-</div>
+        <span class="visually-hidden">Loading...</span>
+    </div>
 }
 else if (_error != null)
 {
@@ -26,28 +27,28 @@ else if (_error != null)
 else
 {
     <div class="row border border-primary">
-    <div class="col border border-danger">
-        <h2>
-            Average Availability
-        </h2>
-    </div>
+        <div class="col border border-danger">
+            <h2>
+                Average Availability
+            </h2>
+        </div>
 
-    <div class="col border border-success">
-        <h2>Average Beds</h2>
+        <div class="col border border-success">
+            <h2>Average Beds</h2>
+        </div>
     </div>
-</div>
 
     <hr>
 
     <div class="row border border-primary">
-    <div class="col border border-danger">
-        <h2>Average Price</h2>
-    </div>
+        <div class="col border border-danger">
+            <h2>Average Price</h2>
+        </div>
 
-    <div class="col border border-success">
-        <h2>Listing count</h2>
+        <div class="col border border-success">
+            <h2>Listing count</h2>
+        </div>
     </div>
-</div>
 }
 
 @code
