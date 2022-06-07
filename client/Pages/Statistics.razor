@@ -14,8 +14,10 @@
 @if (_error == null && (_averageAvailabilityPerNeighbourhood == null || _averageBedsPerNeighbourhood == null ||
 _averagePricePerNeighbourhood == null || _listingCountPerNeighbourhood == null))
 {
-    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-        <span class="visually-hidden">Loading...</span>
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
 }
 else if (_error != null)
