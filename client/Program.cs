@@ -8,13 +8,22 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("APIBaseAddress")) });
+// builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("APIBaseAddress")) });
 
-// Auth0
+builder.Services.AddHttpClient("ServerAPI", client => client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("APIBaseAddress")))
+                .AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>()
+                .ConfigureHandler(
+                    authorizedUrls: new[] { builder.Configuration.GetValue<string>("APIBaseAddress") }
+                ));
+
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IHttpClientFactory>()
+                .CreateClient("ServerAPI"));
+
 builder.Services.AddOidcAuthentication(options =>
 {
-  builder.Configuration.Bind("Auth0", options.ProviderOptions);
-  options.ProviderOptions.ResponseType = "code";
+    builder.Configuration.Bind("Auth0", options.ProviderOptions);
+    options.ProviderOptions.ResponseType = "code";
+    options.ProviderOptions.AdditionalProviderParameters.Add("audience", builder.Configuration.GetValue<string>("Auth0:Audience"));
 });
 
 // Services

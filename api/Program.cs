@@ -26,11 +26,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, c =>
     {
-        c.Authority = $"https://{builder.Configuration["Auth0:Domain"]}";
+        c.Authority = builder.Configuration.GetValue<string>("Auth0:Domain");
         c.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
         {
-            ValidAudience = builder.Configuration["Auth0:Audience"],
-            ValidIssuer = builder.Configuration["Auth0:Domain"]
+            ValidAudience = builder.Configuration.GetValue<string>("Auth0:Audience"),
+            ValidIssuer = builder.Configuration.GetValue<string>("Auth0:Domain")
         };
     });
 
