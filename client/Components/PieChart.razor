@@ -1,0 +1,74 @@
+@using client.Components
+@using ChartJs.Blazor.Util
+@using ChartJs.Blazor.PieChart
+@using ChartJs.Blazor.Common
+
+@if (Labels == null || Data == null)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <Error Message="Labels and Data are required to render a chart." />
+    </div>
+}
+else if (Labels.Length != Data.Length)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <Error Message="Labels and Data must be the same length." />
+    </div>
+}
+else
+{
+    <Chart Config="_config"></Chart>
+}
+
+@code
+{
+    [Parameter]
+    public string[]? Labels { get; set; }
+    [Parameter]
+    public int[]? Data { get; set; }
+    [Parameter]
+    public string? Title { get; set; }
+
+    private PieConfig? _config { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _config = new PieConfig
+        {
+            Options = new PieOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = Title
+                },
+                Legend = new Legend
+                {
+                    Display = false
+                },
+
+            }
+        };
+
+        foreach (string label in Labels)
+        {
+            _config.Data.Labels.Add(label);
+        }
+
+        _config.Data.Datasets.Add(new PieDataset<int>(Data)
+        {
+            BackgroundColor = Data.Select(x => RandomColor()).ToArray(),
+        });
+    }
+
+    private string RandomColor()
+    {
+        Random rnd = new Random();
+        var r = (byte)rnd.Next(255);
+        var g = (byte)rnd.Next(255);
+        var b = (byte)rnd.Next(255);
+
+        return ColorUtil.ColorHexString(r, g, b);
+    }
+}

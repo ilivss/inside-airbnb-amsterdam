@@ -11,10 +11,8 @@
 
 <PageTitle>Statistics</PageTitle>
 
-<h1>Statistics</h1>
-
 @if (_error == null && (_averageAvailabilityPerNeighbourhood == null || _averageBedsPerNeighbourhood == null ||
-_averagePricePerNeighbourhood == null || _listingCountsPerNeighbourhood == null))
+_averagePricePerNeighbourhood == null || _listingCountPerNeighbourhood == null))
 {
     <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -26,27 +24,34 @@ else if (_error != null)
 }
 else
 {
-    <div class="row border border-primary">
-        <div class="col border border-danger">
-            <h2>
-                Average Availability
-            </h2>
+    <div class="container h-100">
+        <h1>Statistics</h1>
+
+        <div class="row">
+            <div class="col">
+                <h2>Average Availability</h2>
+                <PieChart title="Average availability per neighbourhood" labels="@_averageAvailabilityPerNeighbourhood?.Select(l => l.Neighbourhood).ToArray()"
+                data="@_averageAvailabilityPerNeighbourhood?.Select(l => Convert.ToInt32(l.AverageAvailability)).ToArray()" />
+            </div>
+
+            <div class="col">
+                <h2>Average Beds</h2>
+                <LineChart title="Average beds per neighbourhood" labels="@_averageBedsPerNeighbourhood?.Select(l => l.Neighbourhood).ToArray()"
+                data="@_averageBedsPerNeighbourhood?.Select(l => Convert.ToInt32(l.AverageBeds)).ToArray()"></LineChart>
+            </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <h2>Average Price</h2>
+                <LineChart title="Average price per neighbourhood" labels="@_averagePricePerNeighbourhood?.Select(l => l.Neighbourhood).ToArray()"
+                data="@_averagePricePerNeighbourhood?.Select(l => Convert.ToInt32(l.AveragePrice)).ToArray()"></LineChart>
+            </div>
 
-        <div class="col border border-success">
-            <h2>Average Beds</h2>
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="row border border-primary">
-        <div class="col border border-danger">
-            <h2>Average Price</h2>
-        </div>
-
-        <div class="col border border-success">
-            <h2>Listing count</h2>
+            <div class="col">
+                <h2>Listing count</h2>
+                <PieChart title="Listing count per neighbourhood" labels="@_listingCountPerNeighbourhood?.Select(l => l.Neighbourhood).ToArray()"
+                data="@_listingCountPerNeighbourhood?.Select(l => l.Count).ToArray()" />
+            </div>
         </div>
     </div>
 }
@@ -56,7 +61,7 @@ else
     private List<NeighbourhoodAverageAvailability>? _averageAvailabilityPerNeighbourhood { get; set; }
     private List<NeighbourhoodAverageBeds>? _averageBedsPerNeighbourhood { get; set; }
     private List<NeighbourhoodAveragePrice>? _averagePricePerNeighbourhood { get; set; }
-    private List<NeighbourhoodListingCount>? _listingCountsPerNeighbourhood { get; set; }
+    private List<NeighbourhoodListingCount>? _listingCountPerNeighbourhood { get; set; }
     private string? _error { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -67,7 +72,7 @@ else
             _averageAvailabilityPerNeighbourhood = await statisticsService.GetAverageAvailabilityPerNeighbourhood();
             _averageBedsPerNeighbourhood = await statisticsService.GetAverageBedsPerNeighbourhood();
             _averagePricePerNeighbourhood = await statisticsService.GetAveragePricePerNeighbourhood();
-            _listingCountsPerNeighbourhood = await statisticsService.GetListingCountPerNeighbourhood();
+            _listingCountPerNeighbourhood = await statisticsService.GetListingCountPerNeighbourhood();
         }
         catch (AccessTokenNotAvailableException ex)
         {

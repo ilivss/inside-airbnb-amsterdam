@@ -1,0 +1,63 @@
+@using ChartJs.Blazor.Util
+@using ChartJs.Blazor.LineChart
+@using ChartJs.Blazor.Common
+
+@if (Labels == null || Data == null)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <Error Message="Labels and Data are required to render a chart." />
+    </div>
+}
+else if (Labels.Length != Data.Length)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <Error Message="Labels and Data must be the same length." />
+    </div>
+}
+else
+{
+    <Chart Config="_config"></Chart>
+}
+
+@code
+{
+    [Parameter]
+    public string[]? Labels { get; set; }
+    [Parameter]
+    public int[]? Data { get; set; }
+    [Parameter]
+    public string? Title { get; set; }
+
+    private LineConfig? _config { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _config = new LineConfig
+        {
+            Options = new LineOptions
+            {
+                Responsive = true,
+                Legend = new Legend
+                {
+                    Display = false
+                },
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = Title
+                }
+            }
+        };
+
+        foreach (string label in Labels)
+        {
+            _config.Data.Labels.Add(label);
+        }
+
+        _config.Data.Datasets.Add(new LineDataset<int>(Data)
+        {
+            BackgroundColor = ColorUtil.ColorHexString(255, 99, 132),
+            LineTension = 0.2,
+        });
+    }
+}
