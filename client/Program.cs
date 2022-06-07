@@ -15,11 +15,4 @@ builder.Services.AddSingleton<INeighbourhoodService, NeighbourhoodService>();
 builder.Services.AddSingleton<IStatisticsService, StatisticsService>();
 builder.Services.AddSingleton<IMapboxService, MapboxService>();
 
-// Auth0
-builder.Services.AddOidcAuthentication(options =>
-{
-    builder.Configuration.Bind("Auth0", options.ProviderOptions);
-    options.ProviderOptions.ResponseType = "code";
-});
-
 await builder.Build().RunAsync();
