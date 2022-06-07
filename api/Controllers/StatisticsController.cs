@@ -6,7 +6,7 @@ namespace api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize]
+[Authorize(Policy = "ReadStatistics")]  
 public class StatisticsController : ControllerBase, IStatisticsController
 {
     private readonly IStatisticsService _statisticsService;

@@ -34,6 +34,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ReadStatistics", policy => policy.RequireClaim("permissions", "read:statistics"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

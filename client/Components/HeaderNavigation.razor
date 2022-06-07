@@ -16,7 +16,7 @@
                 <li><a href="/" class="nav-link px-2 link-secondary">Listings</a></li>
                 <AuthorizeView>
                     <Authorized>
-                        @if(context?.User?.Claims.Where(c => c.Type.Contains("role"))?.Select(c => c.Value)?.FirstOrDefault() == "admin")
+                        @if((bool) context?.User?.Claims.Where(c => c.Type.Contains("role"))?.Select(c => c.Value)?.FirstOrDefault().Contains("admin"))
                         {
                             <li><a href="/statistics" class="nav-link px-2 link-secondary">Statistics</a></li>
                         }
