@@ -20,6 +20,7 @@ public class ListingService : IListingService
     public IEnumerable<Listing> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
         return _context.Listings
+            .AsNoTracking()
             .Where(l =>
                 (minPrice == null || l.Price > minPrice) &&
                 (maxPrice == null || l.Price < maxPrice) &&
