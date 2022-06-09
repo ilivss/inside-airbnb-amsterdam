@@ -4,5 +4,5 @@ namespace api.Controllers;
 
 public interface INeighbourhoodController
 {
-    IActionResult Get();
+    Task<IActionResult> Get();
 }

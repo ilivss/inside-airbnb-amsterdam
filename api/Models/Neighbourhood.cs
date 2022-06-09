@@ -6,4 +6,10 @@
         public string? NeighbourhoodGroup { get; set; }
         public string Name { get; set; } = null!;
     }
+
+        public partial class NeighbourhoodDTO
+    {
+        public string? NeighbourhoodGroup { get; set; }
+        public string Name { get; set; } = null!;
+    }
 }
