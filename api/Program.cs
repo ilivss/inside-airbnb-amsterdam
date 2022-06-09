@@ -15,7 +15,7 @@ builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 
 // Database connection
 builder.Services.AddDbContext<ApplicationContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("default"))
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Mssql"))
 );
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -38,6 +38,12 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("ReadStatistics", policy => policy.RequireClaim("permissions", "read:statistics"));
 });
+
+// Redis
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});  
 
 var app = builder.Build();
 

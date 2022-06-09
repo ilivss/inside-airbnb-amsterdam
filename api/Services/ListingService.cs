@@ -28,6 +28,7 @@ public class ListingService : IListingService
                 (minNrOfReviews == null || l.NumberOfReviews > minNrOfReviews) &&
                 (maxNrOfReviews == null || l.NumberOfReviews < maxNrOfReviews)
             )
+            .Take(6000)
             .ToListAsync();
     }
 
