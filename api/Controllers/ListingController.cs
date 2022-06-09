@@ -19,17 +19,9 @@ public class ListingController : ControllerBase, IListingController
     [HttpGet]
     public async Task<IActionResult> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
-        var listings = _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
+        var listingDTOs = await _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
 
-        return Ok(listings);
-    }
-
-    [HttpGet("Location")]
-    public async Task<IActionResult> GetLocations(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
-    {
-        var listings = await _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
-        var locations = listings.Select(l => new { l.Id, l.Name, l.Latitude, l.Longitude, l.RoomType });
-        return Ok(locations);
+        return Ok(listingDTOs);
     }
 
     [HttpGet("{id}")]
