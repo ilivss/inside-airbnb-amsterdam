@@ -24,13 +24,13 @@ public class ListingController : ControllerBase, IListingController
         return Ok(listings);
     }
 
-    // [HttpGet("Location")]
-    // public IActionResult GetLocations(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
-    // {
-    //     var listings = _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
-    //     var locations = listings.Select(l => new { l.Id, l.Name, l.Latitude, l.Longitude, l.RoomType });
-    //     return Ok(locations);
-    // }
+    [HttpGet("Location")]
+    public IActionResult GetLocations(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
+    {
+        var listings = _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
+        var locations = listings.Select(l => new { l.Id, l.Name, l.Latitude, l.Longitude, l.RoomType });
+        return Ok(locations);
+    }
 
     [HttpGet("{id}")]
     public IActionResult Get(int id)
