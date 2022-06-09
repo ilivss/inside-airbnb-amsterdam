@@ -23,38 +23,19 @@ public class ListingController : ControllerBase, IListingController
     [HttpGet]
     public async Task<IActionResult> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
-        IEnumerable<Listing> listings;
-        string cachedListings = await _distributedCache.GetStringAsync("listings");
+        IEnumerable<ListingDTO> listings;
+        string cachedListings = await _distributedCache.GetStringAsync("listingDTOs");
 
         if (!string.IsNullOrEmpty(cachedListings))
         {
-            listings = JsonSerializer.Deserialize<IEnumerable<Listing>>(cachedListings);
+            listings = JsonSerializer.Deserialize<IEnumerable<ListingDTO>>(cachedListings);
         }
         else {
             listings = await _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
-            await _distributedCache.SetStringAsync("listings", JsonSerializer.Serialize(listings));
+            await _distributedCache.SetStringAsync("listingDTOs", JsonSerializer.Serialize(listings));
         }
 
         return Ok(listings);
-    }
-
-    [HttpGet("Location")]
-    public async Task<IActionResult> GetLocations(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
-    {
-        IEnumerable<Listing> listings;
-        string cachedListings = await _distributedCache.GetStringAsync("listings");
-
-        if (!string.IsNullOrEmpty(cachedListings))
-        {
-            listings = JsonSerializer.Deserialize<IEnumerable<Listing>>(cachedListings);
-        }
-        else {
-            listings = await _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
-            await _distributedCache.SetStringAsync("listings", JsonSerializer.Serialize(listings));
-        }
-        
-        var locations = listings.Select(l => new { l.Id, l.Name, l.Latitude, l.Longitude, l.RoomType });
-        return Ok(locations);
     }
 
     [HttpGet("{id}")]

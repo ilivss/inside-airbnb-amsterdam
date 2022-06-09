@@ -17,7 +17,7 @@ public class ListingService : IListingService
         return await _context.Listings.ToListAsync();
     }
 
-    public async Task<IEnumerable<Listing>> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
+    public async Task<IEnumerable<ListingDTO>> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
         return await _context.Listings
             .AsNoTracking()
@@ -28,6 +28,14 @@ public class ListingService : IListingService
                 (minNrOfReviews == null || l.NumberOfReviews > minNrOfReviews) &&
                 (maxNrOfReviews == null || l.NumberOfReviews < maxNrOfReviews)
             )
+            .Select(l => new ListingDTO
+            {
+                Id = l.Id,
+                Name = l.Name,
+                Latitude = l.Latitude,
+                Longitude = l.Longitude,
+                RoomType = l.RoomType
+            })
             .Take(6000)
             .ToListAsync();
     }

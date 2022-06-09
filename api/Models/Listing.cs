@@ -109,4 +109,13 @@ namespace api.Models
 
         public virtual ICollection<Review> Reviews { get; set; }
     }
+
+    public partial class ListingDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public string? RoomType { get; set; }
+    }
 }
