@@ -8,7 +8,8 @@ class UserTasks(TaskSet):
 
     @task
     def get_listings(self):
-        self.client.get("/listing/location")
+        self.client.get("/listing")
+        self.client.get("/neighbourhood")
 
 class WebsiteUser(HttpUser):
     wait_time = constant(0.5)
