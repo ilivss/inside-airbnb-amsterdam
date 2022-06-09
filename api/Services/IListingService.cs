@@ -4,5 +4,5 @@ namespace api.Services;
 
 public interface IListingService : IGenericCrudService<Listing>
 {
-    IEnumerable<Listing> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews);
+    Task<IEnumerable<Listing>> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews);
 }

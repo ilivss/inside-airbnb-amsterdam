@@ -17,7 +17,7 @@ public class ListingController : ControllerBase, IListingController
     }
 
     [HttpGet]
-    public IActionResult Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
+    public async Task<IActionResult> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
         var listings = _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
 
@@ -25,39 +25,39 @@ public class ListingController : ControllerBase, IListingController
     }
 
     [HttpGet("Location")]
-    public IActionResult GetLocations(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
+    public async Task<IActionResult> GetLocations(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
-        var listings = _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
+        var listings = await _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
         var locations = listings.Select(l => new { l.Id, l.Name, l.Latitude, l.Longitude, l.RoomType });
         return Ok(locations);
     }
 
     [HttpGet("{id}")]
-    public IActionResult Get(int id)
+    public async Task<IActionResult> Get(int id)
     {
-        var listing = _listingService.Get(id);
+        var listing = await _listingService.Get(id);
         return Ok(listing);
     }
 
     // [HttpPost]
-    // public IActionResult Post([FromBody] Listing listing)
+    // public async Task<IActionResult> Post([FromBody] Listing listing)
     // {
-    //     _listingService.Create(listing);
+    //     await _listingService.Create(listing);
     //     return Ok(listing);
     // }
 
     // [HttpPut("{id}")]
-    // public IActionResult Put(int id, [FromBody] Listing listing)
+    // public async Task<IActionResult> Put(int id, [FromBody] Listing listing)
     // {
     //     listing.Id = id;
-    //     _listingService.Update(listing);
+    //     await _listingService.Update(listing);
     //     return Ok(listing);
     // }
 
     // [HttpDelete("{id}")]
-    // public IActionResult Delete(int id)
+    // public async Task<IActionResult> Delete(int id)
     // {
-    //     _listingService.Delete(id);
+    //     await _listingService.Delete(id);
     //     return Ok();
     // }
 }

@@ -8,9 +8,9 @@ namespace api.Controllers;
 public interface IListingController
 {
     // IActionResult Delete(int id);
-    IActionResult Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews);
-    IActionResult Get(int id);
-    // IActionResult GetLocations(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews);
-    // IActionResult Post([FromBody] Listing listing);
-    // IActionResult Put(int id, [FromBody] Listing listing);
+    Task<IActionResult> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews);
+    Task<IActionResult> Get(int id);
+    // Task<IActionResult> GetLocations(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews);
+    // Task<IActionResult> Post([FromBody] Listing listing);
+    // Task<IActionResult> Put(int id, [FromBody] Listing listing);
 }

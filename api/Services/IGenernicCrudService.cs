@@ -2,9 +2,9 @@ namespace api.Services;
 
 public interface IGenericCrudService<T>
 {
-    IEnumerable<T> Get();
-    T? Get(int id);
-    T Create(T entity);
-    T Update(T entity);
-    void Delete(int id);
+    Task<IEnumerable<T>> Get();
+    Task<T?> Get(int id);
+    Task<T> Create(T entity);
+    Task<T> Update(T entity);
+    Task Delete(int id);
 }
