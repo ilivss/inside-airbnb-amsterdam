@@ -1,22 +1,27 @@
 using api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Services;
 
- public class NeighbourhoodService : INeighbourhoodService
- {
-     private readonly ApplicationContext _context;
+public class NeighbourhoodService : INeighbourhoodService
+{
+    private readonly ApplicationContext _context;
 
-     public NeighbourhoodService(ApplicationContext context) {
-            _context = context;
-     }
+    public NeighbourhoodService(ApplicationContext context)
+    {
+        _context = context;
+    }
 
-    public IEnumerable<Neighbourhood> Get()
+    public async Task<IEnumerable<NeighbourhoodDTO>> Get()
     {
         // De geven dataset (AirBNB.bacpac) klopt voor geen meter!!!
         // De neighbourhoods records komen niet overeen met de 'neighbourhoods' column van Listing. 
         // return _context.Neighbourhoods.ToList();
 
         // Workaround:
-        return _context.Listings.Select(l => new Neighbourhood(){Name = l.Neighbourhood}).Distinct().ToList();
+        return await _context.Listings.AsNoTracking()
+                                    .Select(l => new NeighbourhoodDTO() { Name = l.Neighbourhood })
+                                    .Distinct()
+                                    .ToListAsync();
     }
 }

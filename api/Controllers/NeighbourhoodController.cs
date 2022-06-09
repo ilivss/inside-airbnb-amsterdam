@@ -15,9 +15,9 @@ public class NeighbourhoodController : ControllerBase, INeighbourhoodController
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
-        var neighbourhoods = _neighbourhoodService.Get();
-        return Ok(neighbourhoods);
+        var neighbourhoodDTOs = await _neighbourhoodService.Get();
+        return Ok(neighbourhoodDTOs);
     }
 }
