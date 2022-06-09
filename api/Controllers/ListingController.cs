@@ -23,19 +23,19 @@ public class ListingController : ControllerBase, IListingController
     [HttpGet]
     public async Task<IActionResult> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
-        IEnumerable<ListingDTO> listings;
+        IEnumerable<ListingDTO> listingDTOs;
         string cachedListings = await _distributedCache.GetStringAsync("listingDTOs");
 
         if (!string.IsNullOrEmpty(cachedListings))
         {
-            listings = JsonSerializer.Deserialize<IEnumerable<ListingDTO>>(cachedListings);
+            listingDTOs = JsonSerializer.Deserialize<IEnumerable<ListingDTO>>(cachedListings);
         }
         else {
-            listings = await _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
-            await _distributedCache.SetStringAsync("listingDTOs", JsonSerializer.Serialize(listings));
+            listingDTOs = await _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
+            await _distributedCache.SetStringAsync("listingDTOs", JsonSerializer.Serialize(listingDTOs));
         }
 
-        return Ok(listings);
+        return Ok(listingDTOs);
     }
 
     [HttpGet("{id}")]

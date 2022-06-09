@@ -7,7 +7,7 @@
         public string Name { get; set; } = null!;
     }
 
-        public partial class NeighbourhoodDTO
+    public partial class NeighbourhoodDTO
     {
         public string Name { get; set; } = null!;
     }

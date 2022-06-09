@@ -22,19 +22,19 @@ public class NeighbourhoodController : ControllerBase, INeighbourhoodController
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        IEnumerable<NeighbourhoodDTO> neighbourhoods;
-        string cachedNeighbourhoods = await _distributedCache.GetStringAsync("neighbourhoodDTOs");
+        IEnumerable<NeighbourhoodDTO> neighbourhoodDTOs;
+        string cachedNeighbourhoodDTOs = await _distributedCache.GetStringAsync("neighbourhoodDTOs");
 
-        if(!string.IsNullOrEmpty(cachedNeighbourhoods))
+        if(!string.IsNullOrEmpty(cachedNeighbourhoodDTOs))
         {
-            neighbourhoods = JsonSerializer.Deserialize<IEnumerable<NeighbourhoodDTO>>(cachedNeighbourhoods);
+            neighbourhoodDTOs = JsonSerializer.Deserialize<IEnumerable<NeighbourhoodDTO>>(cachedNeighbourhoodDTOs);
         }
         else
         {
-            neighbourhoods = await _neighbourhoodService.Get();
-            await _distributedCache.SetStringAsync("neighbourhoodDTOs", JsonSerializer.Serialize(neighbourhoods));
+            neighbourhoodDTOs = await _neighbourhoodService.Get();
+            await _distributedCache.SetStringAsync("neighbourhoodDTOs", JsonSerializer.Serialize(neighbourhoodDTOs));
         }
 
-        return Ok(neighbourhoods);
+        return Ok(neighbourhoodDTOs);
     }
 }

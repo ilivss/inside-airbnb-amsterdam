@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Services;
 
- public class NeighbourhoodService : INeighbourhoodService
- {
-     private readonly ApplicationContext _context;
+public class NeighbourhoodService : INeighbourhoodService
+{
+    private readonly ApplicationContext _context;
 
-     public NeighbourhoodService(ApplicationContext context) {
-            _context = context;
-     }
+    public NeighbourhoodService(ApplicationContext context)
+    {
+        _context = context;
+    }
 
     public async Task<IEnumerable<NeighbourhoodDTO>> Get()
     {
@@ -20,7 +21,7 @@ namespace api.Services;
         // Workaround:
         return await _context.Listings
                     .AsNoTracking()
-                    .Select(l => new NeighbourhoodDTO(){Name = l.Neighbourhood})
+                    .Select(l => new NeighbourhoodDTO() { Name = l.Neighbourhood })
                     .Distinct()
                     .ToListAsync();
     }

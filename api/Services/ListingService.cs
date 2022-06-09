@@ -12,10 +12,10 @@ public class ListingService : IListingService
         _context = context;
     }
 
-    public async Task<IEnumerable<Listing>> Get()
-    {
-        return await _context.Listings.ToListAsync();
-    }
+    // public async Task<IEnumerable<Listing>> Get()
+    // {
+    //     return await _context.Listings.ToListAsync();
+    // }
 
     public async Task<IEnumerable<ListingDTO>> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
@@ -36,7 +36,6 @@ public class ListingService : IListingService
                 Longitude = l.Longitude,
                 RoomType = l.RoomType
             })
-            .Take(6000)
             .ToListAsync();
     }
 
@@ -67,5 +66,7 @@ public class ListingService : IListingService
             _context.Set<Listing>().Remove(listing);
             await _context.SaveChangesAsync();
         }
+
+        return;
     }
 }
