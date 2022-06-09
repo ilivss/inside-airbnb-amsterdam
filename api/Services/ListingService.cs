@@ -12,12 +12,12 @@ public class ListingService : IListingService
         _context = context;
     }
 
-    public IEnumerable<Listing> Get()
-    {
-        return _context.Listings.ToList();
-    }
+    // public IEnumerable<Listing> Get()
+    // {
+    //     return _context.Listings.ToList();
+    // }
 
-    public IEnumerable<Listing> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
+    public IEnumerable<ListingDTO> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
         return _context.Listings
             .AsNoTracking()
@@ -28,6 +28,14 @@ public class ListingService : IListingService
                 (minNrOfReviews == null || l.NumberOfReviews > minNrOfReviews) &&
                 (maxNrOfReviews == null || l.NumberOfReviews < maxNrOfReviews)
             )
+            .Select(l => new ListingDTO
+            {
+                Id = l.Id,
+                Name = l.Name,
+                Latitude = l.Latitude,
+                Longitude = l.Longitude,
+                RoomType = l.RoomType,
+            })
             .ToList();
     }
 
