@@ -11,7 +11,7 @@ namespace api.Services;
             _context = context;
      }
 
-    public async Task<IEnumerable<Neighbourhood>> Get()
+    public async Task<IEnumerable<NeighbourhoodDTO>> Get()
     {
         // De geven dataset (AirBNB.bacpac) klopt voor geen meter!!!
         // De neighbourhoods records komen niet overeen met de 'neighbourhoods' column van Listing. 
@@ -20,7 +20,7 @@ namespace api.Services;
         // Workaround:
         return await _context.Listings
                     .AsNoTracking()
-                    .Select(l => new Neighbourhood(){Name = l.Neighbourhood})
+                    .Select(l => new NeighbourhoodDTO(){Name = l.Neighbourhood})
                     .Distinct()
                     .ToListAsync();
     }

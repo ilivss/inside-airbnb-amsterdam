@@ -4,5 +4,5 @@ namespace api.Services;
 
 public interface INeighbourhoodService
 {
-    Task<IEnumerable<Neighbourhood>> Get();
+    Task<IEnumerable<NeighbourhoodDTO>> Get();
 }
