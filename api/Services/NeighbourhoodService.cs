@@ -1,4 +1,5 @@
 using api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Services;
 
@@ -17,6 +18,9 @@ namespace api.Services;
         // return _context.Neighbourhoods.ToList();
 
         // Workaround:
-        return _context.Listings.Select(l => new Neighbourhood(){Name = l.Neighbourhood}).Distinct().ToList();
+        return _context.Listings.AsNoTracking()
+                                .Select(l => new Neighbourhood(){Name = l.Neighbourhood})
+                                .Distinct()
+                                .ToList();
     }
 }
