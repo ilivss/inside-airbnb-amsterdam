@@ -24,7 +24,7 @@ class StepLoadShape(LoadTestShape):
     step_time = 15
     step_load = 10
     spawn_rate = 10
-    time_limit = 240
+    time_limit = 150
 
     def tick(self):
         run_time = self.get_run_time()
