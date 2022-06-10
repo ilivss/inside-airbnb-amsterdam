@@ -39,6 +39,12 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ReadStatistics", policy => policy.RequireClaim("permissions", "read:statistics"));
 });
 
+// Redis
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});  
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

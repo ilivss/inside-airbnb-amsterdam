@@ -1,7 +1,9 @@
-using api.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
 using api.Models;
+using api.Services;
 
 namespace api.Controllers;
 
@@ -10,16 +12,29 @@ namespace api.Controllers;
 public class ListingController : ControllerBase, IListingController
 {
     private readonly IListingService _listingService;
+    private readonly IDistributedCache _distributedCache;
 
-    public ListingController(IListingService listingService)
+    public ListingController(IListingService listingService, IDistributedCache distributedCache)
     {
         _listingService = listingService;
+        _distributedCache = distributedCache;
     }
 
     [HttpGet]
     public IActionResult Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
-        var listingDTOs = _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
+        IEnumerable<ListingDTO> listingDTOs;
+        string cachedListings = _distributedCache.GetString("listingDTOs");
+
+        if (!string.IsNullOrEmpty(cachedListings))
+        {
+            listingDTOs = JsonSerializer.Deserialize<IEnumerable<ListingDTO>>(cachedListings);
+        }
+        else
+        {
+            listingDTOs = _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
+            _distributedCache.SetString("listingDTOs", JsonSerializer.Serialize(listingDTOs));
+        }
 
         return Ok(listingDTOs);
     }
