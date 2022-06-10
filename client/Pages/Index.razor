@@ -40,7 +40,7 @@
                 @if (_listing != null)
                 {
                     <hr />
-                    <div class="row overflow-scroll" style="height: calc(100% - 350px)">
+                    <div class="row" style="height: calc(100% - 350px); overflow-y: scroll;">
                         <ListingDetails listing="@_listing" SetListing="SetListing" />
                     </div>
                 }
