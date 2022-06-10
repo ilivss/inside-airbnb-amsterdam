@@ -106,12 +106,3 @@ public class Listing
 
     public virtual ICollection<Review> Reviews { get; set; }
 }
-
-public class ListingLocationDTO
-{
-    public int Id { get; set; }
-    public string Name { get; set; } = null!;
-    public double? Latitude { get; set; }
-    public double? Longitude { get; set; }
-    public string? RoomType { get; set; }
-}

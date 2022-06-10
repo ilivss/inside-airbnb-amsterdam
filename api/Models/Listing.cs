@@ -118,4 +118,15 @@ namespace api.Models
         public double? Longitude { get; set; }
         public string? RoomType { get; set; }
     }
+
+    public class ListingDetailsDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; }
+        public int? Bedrooms { get; set; }
+        public decimal? Price { get; set; }
+        public string? Neighbourhood { get; set; }
+        public int? NumberOfReviews { get; set; }
+    }
 }

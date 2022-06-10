@@ -39,9 +39,24 @@ public class ListingService : IListingService
             .ToListAsync();
     }
 
-    public async Task<Listing?> Get(int id)
+    public async Task<ListingDetailsDTO?> Get(int id)
     {
-        return await _context.Set<Listing>().FindAsync(id);
+        var listing = await _context.Listings
+            .AsNoTracking()
+            .Where(l => l.Id == id)
+            .Select(l => new ListingDetailsDTO
+            {
+                Id = l.Id,
+                Name = l.Name,
+                Description = l.Description,
+                Bedrooms = l.Bedrooms,
+                Neighbourhood = l.Neighbourhood,
+                Price = l.Price,
+                NumberOfReviews = l.NumberOfReviews,
+            })
+            .FirstOrDefaultAsync();
+
+        return listing;
     }
 
     public async Task<Listing> Create(Listing listing)
