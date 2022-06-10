@@ -25,7 +25,8 @@ public class ListingController : ControllerBase, IListingController
     public async Task<IActionResult> Get(int? minPrice, int? maxPrice, string? neighbourhood, int? minNrOfReviews, int? maxNrOfReviews)
     {
         IEnumerable<ListingDTO> listingDTOs;
-        string cachedListings = await _distributedCache.GetStringAsync("listingDTOs");
+        string cacheKey = $"{minPrice}-{maxPrice}-{neighbourhood}-{minNrOfReviews}-{maxNrOfReviews}";
+        string cachedListings = await _distributedCache.GetStringAsync("listingDTOs-" + cacheKey);
 
         if (!string.IsNullOrEmpty(cachedListings))
         {
@@ -33,7 +34,7 @@ public class ListingController : ControllerBase, IListingController
         }
         else {
             listingDTOs = await _listingService.Get(minPrice, maxPrice, neighbourhood, minNrOfReviews, maxNrOfReviews);
-            await _distributedCache.SetStringAsync("listingDTOs", JsonSerializer.Serialize(listingDTOs));
+            await _distributedCache.SetStringAsync("listingDTOs-" + cacheKey, JsonSerializer.Serialize(listingDTOs));
         }
 
         return Ok(listingDTOs);
